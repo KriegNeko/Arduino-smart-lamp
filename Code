@@ -1,0 +1,42 @@
+unsigned long  count = 180000;   // 180 секунд 
+ #define  LED 8  // пін для підключення реле з лампою 
+ #define  PIR 2  // пін для підключення датчика руху 
+ 
+ int  val; 
+  byte  n = 0; 
+  unsigned long  counttime; 
+ 
+  void   setup  () { 
+    mySerial.   begin  (9600); 
+  pinMode  (LED,  OUTPUT  ); 
+  pinMode  (PIR,  INPUT  ); 
+  } 
+ 
+  void   loop  () { 
+  // ручний режим 
+  if  (mySerial.  available  ()) { 
+      val = mySerial.   read  (); 
+  if  (val == 'H') {  digitalWrite  (LED,  HIGH  );   } 
+  if  (val == 'L') {  digitalWrite  (LED,  LOW  );   } 
+  if  (val == 'A') { n = 1;   } 
+    } 
+ 
+  // автоматичний режим 
+  while  (n == 1) { 
+  if  (mySerial.  available  ()) { 
+        val = mySerial.   read  (); 
+  if  (val == 'M') { n = 0;   break  ;   } 
+      } 
+  if  (  digitalRead  (PIR) ==  HIGH  ) {  digitalWrite  (LED,  HIGH  );   n = 1;   } 
+  if  (  digitalRead  (PIR) ==  LOW  ) { counttime =  millis  ();   n = 2;   } 
+ 
+      // функція для відкладеного вимкнення світильника 
+     while  (n == 2) { 
+  if  (mySerial.  available  ()) { 
+          val = mySerial.   read  (); 
+  if  (val == 'M') { n = 0;   break  ;   } } 
+  if  (  millis  () - counttime > count) { digitalWrite  (LED,  LOW  );   n = 1;   } 
+  if  (  digitalRead  (PIR) ==  HIGH  ) {  digitalWrite  (LED,  HIGH  );   n = 1;   } 
+        } 
+      } 
+  }
