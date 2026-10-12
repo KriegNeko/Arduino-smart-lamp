@@ -28,14 +28,10 @@ Serial Commands
 Send these single-character commands through the Serial Monitor or another serial terminal. Commands are case-sensitive.
 Command
 Action
-H
-Turn the lamp on in manual mode
-L
-Turn the lamp off in manual mode
-A
-Enter automatic mode
-M
-Exit automatic mode
+H Turn the lamp on in manual mode
+L Turn the lamp off in manual mode
+A Enter automatic mode
+M Exit automatic mode
 Set the serial port speed to 9600 baud. If necessary, configure the Serial Monitor to send commands without a line ending, so no extra characters are transmitted.
 How It Works
 Manual Mode
